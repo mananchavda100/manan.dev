@@ -35,17 +35,20 @@ export default function Themelight() {
         </span>
       </div>
 
-      {/* HTML5 VIDEO PLAYER CONTAINER */}
-      <div className="relative w-full h-full flex-1 overflow-hidden bg-black">
-       <video
+      {/* HTML5 VIDEO PLAYER CONTAINER WITH EXPLICIT MIN-HEIGHT */}
+      <div className="relative w-full h-[260px] sm:h-full flex-1 overflow-hidden bg-black flex items-center justify-center">
+        <video
           ref={videoRef}
-          src="/Manan.webm" 
           autoPlay
           muted
           loop
           playsInline
           className="w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-[1.02]"
-        />
+        >
+          <source src="/Manan.webm" type="video/webm" />
+          {/* Optional: if you also have an MP4 version, you can drop it in public and add it here */}
+          Your browser does not support the video tag.
+        </video>
 
         {/* CENTER RESTART BUTTON */}
         <div className="absolute inset-0 flex items-center justify-center pointer-events-none z-20">
