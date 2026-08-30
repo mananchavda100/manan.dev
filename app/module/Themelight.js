@@ -26,7 +26,7 @@ export default function Themelight() {
     }
   }, [mounted]);
 
-  const videoSrc = '/Manan.webm'; 
+  const videoSrc = '/manan.dev/Manan.webm';; 
   const posterSrc = '/'; 
 
   // ─── MASTER INTERACTIVE CLICK SYSTEM ───
