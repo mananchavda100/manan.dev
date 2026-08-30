@@ -212,39 +212,39 @@ export default function Portfolio() {
       ];
 
       sections.forEach((sec) => {
-        if (sec.ref.current) {
-          const isBuilds = sec.id === 'projects';
-          const isSkills = sec.id === 'skills';
-          
-          gsap.fromTo(sec.ref.current,
-            { opacity: 0.1, y: 30 },
-            {
-              opacity: 1,
-              y: 0,
-              ease: 'power2.out',
-              scrollTrigger: {
-                trigger: sec.ref.current,
-                start: 'top center+=120',  
-                end: 'bottom center',     
-                toggleActions: 'play reverse play reverse',
-                onToggle: (self) => {
-                  if (self.isActive) {
-                    setActiveTab(sec.id);
-                  }
-                },
-                onStart: () => {
-                  if (isBuilds) {
-                    gsap.fromTo('.tl-card-build', { y: 20, opacity: 0 }, { y: 0, opacity: 1, duration: 0.4, stagger: 0.06, ease: 'power2.out', overwrite: 'auto' });
-                  }
-                  if (isSkills) {
-                    gsap.fromTo('.skill-badge-item', { scale: 0.85, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.3, stagger: 0.01, ease: 'power1.out', overwrite: 'auto' });
-                  }
-                }
-              }
+  if (sec.ref.current) {
+    const isBuilds = sec.id === 'projects';
+    const isSkills = sec.id === 'skills';
+    
+    gsap.fromTo(sec.ref.current,
+      { opacity: 0.1, y: 30 },
+      {
+        opacity: 1,
+        y: 0,
+        ease: 'power2.out',
+        onStart: () => {
+          if (isBuilds) {
+            gsap.fromTo('.tl-card-build', { y: 20, opacity: 0 }, { y: 0, opacity: 1, duration: 0.4, stagger: 0.06, ease: 'power2.out', overwrite: 'auto' });
+          }
+          if (isSkills) {
+            gsap.fromTo('.skill-badge-item', { scale: 0.85, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.3, stagger: 0.01, ease: 'power1.out', overwrite: 'auto' });
+          }
+        },
+        scrollTrigger: {
+          trigger: sec.ref.current,
+          start: 'top center+=120',  
+          end: 'bottom center',    
+          toggleActions: 'play reverse play reverse',
+          onToggle: (self) => {
+            if (self.isActive) {
+              setActiveTab(sec.id);
             }
-          );
+          }
         }
-      });
+      }
+    );
+  }
+});
 
       // Work Node Visual Connectors
       if (previousRef.current) {
@@ -288,7 +288,7 @@ export default function Portfolio() {
 
   // if (!mounted) return null;
 
-  const [activeEnv, setActiveEnv] = useState<'Intro' | 'dev'>('Intro');
+  const [activeEnv, setActiveEnv] = useState<'Intro' | 'dev' | 'prod'>('Intro');
   const connectionSpeed = activeEnv === 'prod' ? '12ms' : '44ms';
 
   
