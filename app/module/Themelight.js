@@ -39,7 +39,7 @@ export default function Themelight() {
       <div className="relative w-full h-full flex-1 overflow-hidden bg-black">
         <video
             ref={videoRef}
-            src="https://files.catbox.moe/abc123xy.mp4" // <-- Replace with your real URL here
+            src="https://drive.google.com/file/d/1Ih0OyrdLalfXrwal7H18YW6TpHZzhIwY/view?usp=sharing" // <-- Replace with your real URL here
             autoPlay
             muted
             loop
