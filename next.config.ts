@@ -1,14 +1,14 @@
-import type { NextConfig } from "next";
-
-const nextConfig: NextConfig = {
+/** @type {import('next').NextConfig} */
+const nextConfig = {
   output: "export",
   basePath: "/manan.dev",
   assetPrefix: "/manan.dev/",
+  trailingSlash: true, // Crucial for GitHub Pages routing
   images: {
     unoptimized: true,
   },
   typescript: {
-    ignoreBuildErrors: true, // Safely skips TS type checks during build
+    ignoreBuildErrors: true,
   },
 };
 
