@@ -1,44 +1,27 @@
 'use client';
-
-import React, { useRef, useState, useEffect } from 'react';
+import { useState } from 'react';
 
 export default function Themelight() {
-  const videoRef = useRef(null);
-  const [isMuted, setIsMuted] = useState(true);
+  const [key, setKey] = useState(0);
+  const [isMuted, setIsMuted] = useState(false);
 
-  // Auto-play on mount (muted by default due to browser autoplay policies)
-  useEffect(() => {
-    if (videoRef.current) {
-      videoRef.current.muted = true;
-      videoRef.current.play().catch((error) => {
-        console.log("Autoplay waiting for interaction:", error);
-      });
-    }
-  }, []);
-
-  // Restart video from the beginning
+  // Restart video by re-mounting/refreshing the iframe
   const handleRestart = (e) => {
     e.stopPropagation();
-    if (videoRef.current) {
-      videoRef.current.currentTime = 0;
-      videoRef.current.play();
-    }
+    setKey((prev) => prev + 1);
   };
 
-  // Toggle audio
+  // Toggle mute state (switches Google Drive audio parameter)
   const toggleMute = (e) => {
     e.stopPropagation();
-    if (videoRef.current) {
-      videoRef.current.muted = !videoRef.current.muted;
-      setIsMuted(videoRef.current.muted);
-    }
+    setIsMuted((prev) => !prev);
   };
 
-  // Direct download link format derived from your Google Drive ID
-  const videoSrc = "https://drive.google.com/uc?export=download&id=1Ih0OyrdLalfXrwal7H18YW6TpHZzhIwY";
+  // Google Drive Embed URL with dynamic mute parameter
+  const videoSrc = `https://drive.google.com/file/d/1Ih0OyrdLalfXrwal7H18YW6TpHZzhIwY/preview?autoplay=1&muted=${isMuted ? 1 : 0}`;
 
   return (
-    <div className="w-full sm:w-60 h-full relative group rounded-xl overflow-hidden border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-950 shadow-[0_4px_20px_rgba(0,0,0,0.03)] dark:shadow-[0_4px_20px_rgba(0,0,0,0.3)] transition-all duration-300 ease-out hover:scale-[1.03] sm:hover:scale-105 hover:border-zinc-300 dark:hover:border-zinc-700 hover:shadow-md z-10 will-change-transform select-none min-h-[140px] flex flex-col">
+    <div className="w-full sm:w-60 h-full relative group rounded-xl overflow-hidden border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-950 shadow-[0_4px_20px_rgba(0,0,0,0.03)] dark:shadow-[0_4px_20px_rgba(0,0,0,0.3)] transition-all duration-300 ease-out hover:scale-[1.03] sm:hover:scale-105 hover:border-zinc-300 dark:hover:border-zinc-700 hover:shadow-md z-10 will-change-transform select-none min-h-[140px]">
       
       {/* HUD TOP STATUS INDICATOR BADGE */}
       <div className="absolute top-3 right-3 z-30 flex items-center gap-1.5 bg-zinc-900/80 backdrop-blur-md px-2.5 py-1 rounded-full border border-white/10 text-[9px] font-mono tracking-wider font-bold text-white uppercase select-none transition-all duration-300 pointer-events-none">
@@ -51,56 +34,52 @@ export default function Themelight() {
         </span>
       </div>
 
-      {/* HTML5 VIDEO PLAYER CONTAINER */}
-      <div className="relative w-full h-full flex-1 overflow-hidden bg-black">
-        <video
-          ref={videoRef}
-          src={videoSrc}
-          autoPlay
-          muted
-          loop
-          playsInline
-          className="w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-[1.02]"
-        />
+      {/* GOOGLE DRIVE EMBED STREAM */}
+      <iframe
+        key={key}
+        src={videoSrc}
+        title="Manan Intro Video"
+        className="w-full h-full border-0 bg-zinc-950 transition-transform duration-700 ease-out group-hover:scale-[1.02]"
+        allow="autoplay; encrypted-media"
+        allowFullScreen
+      />
 
-        {/* CENTER RESTART BUTTON (Appears on Hover) */}
-        <div className="absolute inset-0 flex items-center justify-center pointer-events-none z-20">
-          <button
-            onClick={handleRestart}
-            className="pointer-events-auto bg-white/80 hover:bg-white text-zinc-900 dark:bg-black/60 dark:hover:bg-black/80 dark:text-white p-3 rounded-full transition-all duration-300 opacity-0 group-hover:opacity-100 backdrop-blur-md shadow-xl transform hover:scale-110 flex items-center justify-center"
-            title="Restart Video"
-          >
-            <svg xmlns="http://www.w3.org/2000/svg" className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
-            </svg>
-          </button>
-        </div>
-
-        {/* MUTE / UNMUTE BUTTON (Bottom Right) */}
+      {/* CENTER RESTART BUTTON (Appears on Hover) */}
+      <div className="absolute inset-0 flex items-center justify-center pointer-events-none z-20">
         <button
-          onClick={toggleMute}
-          className="absolute bottom-3 right-3 bg-white/80 hover:bg-white text-zinc-900 dark:bg-black/60 dark:hover:bg-black/80 dark:text-white px-2.5 py-1 rounded-md text-[10px] font-medium transition-all backdrop-blur-md shadow-md flex items-center gap-1.5 z-20 border border-zinc-200/50 dark:border-transparent opacity-80 group-hover:opacity-100"
-          title={isMuted ? "Unmute Audio" : "Mute Audio"}
+          onClick={handleRestart}
+          className="pointer-events-auto bg-white/80 hover:bg-white text-zinc-900 dark:bg-black/60 dark:hover:bg-black/80 dark:text-white p-3 rounded-full transition-all duration-300 opacity-0 group-hover:opacity-100 backdrop-blur-md shadow-xl transform hover:scale-110 flex items-center justify-center"
+          title="Restart Video"
         >
-          {isMuted ? (
-            <>
-              <svg xmlns="http://www.w3.org/2000/svg" className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z" />
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2" />
-              </svg>
-              <span>Muted</span>
-            </>
-          ) : (
-            <>
-              <svg xmlns="http://www.w3.org/2000/svg" className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15.536 8.464a5 5 0 010 7.072m2.828-9.900a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z" />
-              </svg>
-              <span>Sound On</span>
-            </>
-          )}
+          <svg xmlns="http://www.w3.org/2000/svg" className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+          </svg>
         </button>
-
       </div>
+
+      {/* MUTE / UNMUTE BUTTON (Bottom Right, Appears on Hover) */}
+      <button
+        onClick={toggleMute}
+        className="absolute bottom-3 right-3 bg-white/80 hover:bg-white text-zinc-900 dark:bg-black/60 dark:hover:bg-black/80 dark:text-white px-2.5 py-1 rounded-md text-[10px] font-medium transition-all backdrop-blur-md shadow-md flex items-center gap-1.5 z-20 border border-zinc-200/50 dark:border-transparent opacity-80 group-hover:opacity-100"
+        title={isMuted ? "Unmute Audio" : "Mute Audio"}
+      >
+        {isMuted ? (
+          <>
+            <svg xmlns="http://www.w3.org/2000/svg" className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z" />
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2" />
+            </svg>
+            <span>Muted</span>
+          </>
+        ) : (
+          <>
+            <svg xmlns="http://www.w3.org/2000/svg" className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15.536 8.464a5 5 0 010 7.072m2.828-9.900a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z" />
+            </svg>
+            <span>Sound On</span>
+          </>
+        )}
+      </button>
 
     </div>
   );
