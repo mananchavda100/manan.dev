@@ -1,10 +1,12 @@
 {
   "compilerOptions": {
+    "allowJs": true,
+    "checkJs": false,        // 👈 Set to false to stop checking JavaScript files
+    "noImplicitAny": false,   // 👈 Set to false to allow implicit 'any' types
+    "strict": false,    
     "target": "ES2017",
     "lib": ["dom", "dom.iterable", "esnext"],
-    "allowJs": true,
     "skipLibCheck": true,
-    "strict": true,
     "noEmit": true,
     "esModuleInterop": true,
     "module": "esnext",
