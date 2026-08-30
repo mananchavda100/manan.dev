@@ -38,14 +38,14 @@ export default function Themelight() {
       {/* HTML5 VIDEO PLAYER CONTAINER */}
       <div className="relative w-full h-full flex-1 overflow-hidden bg-black">
         <video
-          ref={videoRef}
-          src="https://files.catbox.moe/your-video-file-id.mp4" 
-          autoPlay
-          muted
-          loop
-          playsInline
-          className="w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-[1.02]"
-        />
+            ref={videoRef}
+            src="https://files.catbox.moe/abc123xy.mp4" // <-- Replace with your real URL here
+            autoPlay
+            muted
+            loop
+            playsInline
+            className="w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-[1.02]"
+          />
 
         {/* CENTER RESTART BUTTON */}
         <div className="absolute inset-0 flex items-center justify-center pointer-events-none z-20">
