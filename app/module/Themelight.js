@@ -48,8 +48,7 @@ export default function Themelight() {
           playsInline
           className="w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-[1.02]"
         >
-          <source src={`${basePath}/Manan.webm`} type="video/webm" />
-          <source src={`${basePath}/Manan.mp4`} type="video/mp4" />
+          <source src={`${basePath}/Manan(3).mp4`} type="video/mp4" />
           Your browser does not support the video tag.
         </video>
 
