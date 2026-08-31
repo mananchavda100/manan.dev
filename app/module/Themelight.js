@@ -1,15 +1,27 @@
 'use client';
-import { useRef, useState } from 'react';
+import { useRef, useState, useEffect } from 'react';
 
 export default function Themelight() {
   const videoRef = useRef(null);
   const [isMuted, setIsMuted] = useState(true);
+  const [isPlaying, setIsPlaying] = useState(true);
+
+  // Ensure video plays programmatically on mount for strict browser policies
+  useEffect(() => {
+    if (videoRef.current) {
+      videoRef.current.play().catch((error) => {
+        console.warn("Auto-play was prevented by the browser:", error);
+        setIsPlaying(false);
+      });
+    }
+  }, []);
 
   const handleRestart = (e) => {
     e.stopPropagation();
     if (videoRef.current) {
       videoRef.current.currentTime = 0;
       videoRef.current.play();
+      setIsPlaying(true);
     }
   };
 
@@ -21,8 +33,9 @@ export default function Themelight() {
     }
   };
 
-  // Automatically resolves the GitHub Pages subdirectory prefix if configured
+  // Robust path resolution for GitHub Pages repository subdirectories
   const basePath = process.env.NEXT_PUBLIC_BASE_PATH || '';
+  const videoSource = `${basePath}/Manan(3).mp4`;
 
   return (
     <div className="w-full sm:w-60 h-full relative group rounded-xl overflow-hidden border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-950 shadow-[0_4px_20px_rgba(0,0,0,0.03)] dark:shadow-[0_4px_20px_rgba(0,0,0,0.3)] transition-all duration-300 ease-out hover:scale-[1.03] sm:hover:scale-105 hover:border-zinc-300 dark:hover:border-zinc-700 hover:shadow-md z-10 will-change-transform select-none min-h-[140px] flex flex-col">
@@ -38,7 +51,7 @@ export default function Themelight() {
         </span>
       </div>
 
-      {/* HTML5 VIDEO PLAYER CONTAINER WITH EXPLICIT MIN-HEIGHT */}
+      {/* HTML5 VIDEO PLAYER CONTAINER */}
       <div className="relative w-full h-[260px] sm:h-full flex-1 overflow-hidden bg-black flex items-center justify-center">
         <video
           ref={videoRef}
@@ -48,7 +61,7 @@ export default function Themelight() {
           playsInline
           className="w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-[1.02]"
         >
-          <source src={`${basePath}/Manan(3).mp4`} type="video/mp4" />
+          <source src={videoSource} type="video/mp4" />
           Your browser does not support the video tag.
         </video>
 
@@ -90,7 +103,6 @@ export default function Themelight() {
         </button>
 
       </div>
-
     </div>
   );
 }
