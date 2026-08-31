@@ -693,7 +693,7 @@ if (!mounted) return null;
         <span className="text-[7px] font-bold text-[var(--text-dim)] tracking-widest uppercase opacity-60 tracking-wider">DOC_TUNNEL</span>
         
         <a
-          href="https://google.com"
+          href="https://drive.google.com/file/d/1TxM08OSjW_i_AeyTFcT0YflAVZZwa099/view?usp=sharing"
           target="_blank"
           rel="noopener noreferrer"
           className="group/cv flex items-center justify-between gap-1.5 px-2 py-0.5 text-[9px] font-bold tracking-wider uppercase text-[var(--text-muted)] bg-[var(--background)] border border-[var(--card-border)]/80 hover:border-green-500/30 hover:bg-green-500/[0.03] rounded transition-all duration-300 ease-out cursor-pointer max-w-full hover:shadow-[0_2px_8px_rgba(34,197,94,0.06)]"
