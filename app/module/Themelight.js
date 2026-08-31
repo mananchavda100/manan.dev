@@ -1,64 +1,30 @@
 'use client';
-import { useRef, useState, useEffect } from 'react';
+import { useRef, useState } from 'react';
 
 export default function Themelight() {
   const videoRef = useRef(null);
   const [isMuted, setIsMuted] = useState(true);
-  const [isPlaying, setIsPlaying] = useState(false);
-
-  useEffect(() => {
-    const video = videoRef.current;
-    if (video) {
-      video.play()
-        .then(() => setIsPlaying(true))
-        .catch((error) => {
-          console.warn("Autoplay restriction intercepted:", error);
-          setIsPlaying(false);
-        });
-    }
-  }, []);
-
-  const handlePlayPause = (e) => {
-    e.stopPropagation();
-    const video = videoRef.current;
-    if (video) {
-      if (video.paused) {
-        video.play()
-          .then(() => setIsPlaying(true))
-          .catch((err) => console.error("Playback execution failed:", err));
-      } else {
-        video.pause();
-        setIsPlaying(false);
-      }
-    }
-  };
 
   const handleRestart = (e) => {
     e.stopPropagation();
-    const video = videoRef.current;
-    if (video) {
-      video.currentTime = 0;
-      video.play()
-        .then(() => setIsPlaying(true))
-        .catch((err) => console.error("Restart execution failed:", err));
+    if (videoRef.current) {
+      videoRef.current.currentTime = 0;
+      videoRef.current.play();
     }
   };
 
   const toggleMute = (e) => {
     e.stopPropagation();
-    const video = videoRef.current;
-    if (video) {
-      video.muted = !video.muted;
-      setIsMuted(video.muted);
+    if (videoRef.current) {
+      videoRef.current.muted = !videoRef.current.muted;
+      setIsMuted(videoRef.current.muted);
     }
   };
-
-  const videoSource = "/Manan.mp4";
 
   return (
     <div className="w-full sm:w-60 h-full relative group rounded-xl overflow-hidden border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-950 shadow-[0_4px_20px_rgba(0,0,0,0.03)] dark:shadow-[0_4px_20px_rgba(0,0,0,0.3)] transition-all duration-300 ease-out hover:scale-[1.03] sm:hover:scale-105 hover:border-zinc-300 dark:hover:border-zinc-700 hover:shadow-md z-10 will-change-transform select-none min-h-[140px] flex flex-col">
       
-      {/* HUD BADGE */}
+      {/* HUD TOP STATUS INDICATOR BADGE */}
       <div className="absolute top-3 right-3 z-30 flex items-center gap-1.5 bg-zinc-900/80 backdrop-blur-md px-2.5 py-1 rounded-full border border-white/10 text-[9px] font-mono tracking-wider font-bold text-white uppercase select-none transition-all duration-300 pointer-events-none">
         <span className="relative flex h-1.5 w-1.5">
           <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-blue-400 opacity-75 duration-1000" />
@@ -69,36 +35,20 @@ export default function Themelight() {
         </span>
       </div>
 
-      {/* VIDEO CONTAINER */}
+      {/* HTML5 VIDEO PLAYER CONTAINER */}
       <div className="relative w-full h-[260px] sm:h-full flex-1 overflow-hidden bg-black flex items-center justify-center">
         <video
           ref={videoRef}
+          src="/Manan.mp4"
           autoPlay
           muted
           loop
           playsInline
-          preload="auto"
           className="w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-[1.02]"
-        >
-          <source src={videoSource} type="video/mp4" />
-          Your browser does not support the video tag.
-        </video>
+        />
 
-        {/* CONTROLS OVERLAY */}
-        <div className="absolute inset-0 flex items-center justify-center gap-3 pointer-events-none z-20">
-          {!isPlaying && (
-            <button
-              onClick={handlePlayPause}
-              className="pointer-events-auto bg-blue-600 hover:bg-blue-500 text-white p-4 rounded-full transition-all duration-300 shadow-2xl transform hover:scale-110 flex items-center justify-center animate-bounce"
-              title="Play Video"
-            >
-              <svg xmlns="http://www.w3.org/2000/svg" className="w-6 h-6 translate-x-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z" />
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-              </svg>
-            </button>
-          )}
-
+        {/* CENTER RESTART BUTTON */}
+        <div className="absolute inset-0 flex items-center justify-center pointer-events-none z-20">
           <button
             onClick={handleRestart}
             className="pointer-events-auto bg-white/80 hover:bg-white text-zinc-900 dark:bg-black/60 dark:hover:bg-black/80 dark:text-white p-3 rounded-full transition-all duration-300 opacity-0 group-hover:opacity-100 backdrop-blur-md shadow-xl transform hover:scale-110 flex items-center justify-center"
@@ -110,7 +60,7 @@ export default function Themelight() {
           </button>
         </div>
 
-        {/* MUTE TOGGLE BUTTON */}
+        {/* MUTE / UNMUTE BUTTON */}
         <button
           onClick={toggleMute}
           className="absolute bottom-3 right-3 bg-white/80 hover:bg-white text-zinc-900 dark:bg-black/60 dark:hover:bg-black/80 dark:text-white px-2.5 py-1 rounded-md text-[10px] font-medium transition-all backdrop-blur-md shadow-md flex items-center gap-1.5 z-20 border border-zinc-200/50 dark:border-transparent opacity-80 group-hover:opacity-100"
@@ -135,6 +85,7 @@ export default function Themelight() {
         </button>
 
       </div>
+
     </div>
   );
 }
