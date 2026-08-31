@@ -21,6 +21,9 @@ export default function Themelight() {
     }
   };
 
+  // Automatically resolves the GitHub Pages subdirectory prefix if configured
+  const basePath = process.env.NEXT_PUBLIC_BASE_PATH || '';
+
   return (
     <div className="w-full sm:w-60 h-full relative group rounded-xl overflow-hidden border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-950 shadow-[0_4px_20px_rgba(0,0,0,0.03)] dark:shadow-[0_4px_20px_rgba(0,0,0,0.3)] transition-all duration-300 ease-out hover:scale-[1.03] sm:hover:scale-105 hover:border-zinc-300 dark:hover:border-zinc-700 hover:shadow-md z-10 will-change-transform select-none min-h-[140px] flex flex-col">
       
@@ -45,8 +48,8 @@ export default function Themelight() {
           playsInline
           className="w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-[1.02]"
         >
-          <source src="/Manan.webm" type="video/webm" />
-          {/* Optional: if you also have an MP4 version, you can drop it in public and add it here */}
+          <source src={`${basePath}/Manan.webm`} type="video/webm" />
+          <source src={`${basePath}/Manan.mp4`} type="video/mp4" />
           Your browser does not support the video tag.
         </video>
 
