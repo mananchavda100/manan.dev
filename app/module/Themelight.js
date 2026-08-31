@@ -56,7 +56,7 @@ export default function Themelight() {
 
   // Explicitly target the repository subpath for GitHub Pages deployment
   const basePath = process.env.NODE_ENV === 'production' ? '/manan.dev' : '';
-  const videoSource = `${basePath}/Manan(3).mp4`;
+  const videoSource = `${basePath}/Manan.mp4`;
 
   return (
     <div className="w-full sm:w-60 h-full relative group rounded-xl overflow-hidden border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-950 shadow-[0_4px_20px_rgba(0,0,0,0.03)] dark:shadow-[0_4px_20px_rgba(0,0,0,0.3)] transition-all duration-300 ease-out hover:scale-[1.03] sm:hover:scale-105 hover:border-zinc-300 dark:hover:border-zinc-700 hover:shadow-md z-10 will-change-transform select-none min-h-[140px] flex flex-col">
