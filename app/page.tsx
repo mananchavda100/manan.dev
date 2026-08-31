@@ -1427,7 +1427,7 @@ if (!mounted) return null;
         {/* Directory Links Grid Mesh */}
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 w-full pt-1">
           {[
-            { label: "Curriculum Vitae", actionText: "Download Resume", icon: Binary, href: "https://google.com", id: "cv" },
+            { label: "Curriculum Vitae", actionText: "Download Resume", icon: Binary, href: "https://drive.google.com/file/d/1TxM08OSjW_i_AeyTFcT0YflAVZZwa099/view?usp=sharing", id: "cv" },
             { label: "Electronic Mail", actionText: "mananchavda100@gmail.com", icon: ShieldCheck, href: "mailto:mananchavda100@gmail.com", id: "mail", copyable: true },
             { label: "Direct Communications", actionText: "+91 7574858088", icon: Workflow, href: "tel:+917574858088", id: "phone", copyable: true }
           ].map((link, lIdx) => {
