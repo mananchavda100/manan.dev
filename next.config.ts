@@ -10,6 +10,9 @@ const nextConfig = {
   typescript: {
     ignoreBuildErrors: true,
   },
+  env: {
+    NEXT_PUBLIC_BASE_PATH: "/manan.dev",
+  },
 };
 
 export default nextConfig;
