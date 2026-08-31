@@ -6,14 +6,13 @@ export default function Themelight() {
   const [isMuted, setIsMuted] = useState(true);
   const [isPlaying, setIsPlaying] = useState(false);
 
-  // Automatically force playback on mount and handle strict browser policies
   useEffect(() => {
     const video = videoRef.current;
     if (video) {
       video.play()
         .then(() => setIsPlaying(true))
         .catch((error) => {
-          console.warn("Autoplay blocked, showing play trigger:", error);
+          console.warn("Autoplay restriction intercepted:", error);
           setIsPlaying(false);
         });
     }
@@ -26,7 +25,7 @@ export default function Themelight() {
       if (video.paused) {
         video.play()
           .then(() => setIsPlaying(true))
-          .catch((err) => console.error("Playback failed:", err));
+          .catch((err) => console.error("Playback execution failed:", err));
       } else {
         video.pause();
         setIsPlaying(false);
@@ -41,7 +40,7 @@ export default function Themelight() {
       video.currentTime = 0;
       video.play()
         .then(() => setIsPlaying(true))
-        .catch((err) => console.error("Restart failed:", err));
+        .catch((err) => console.error("Restart execution failed:", err));
     }
   };
 
@@ -54,14 +53,12 @@ export default function Themelight() {
     }
   };
 
-  // Explicitly target the repository subpath for GitHub Pages deployment
-  const basePath = process.env.NODE_ENV === 'production' ? '/manan.dev' : '';
-  const videoSource = `${basePath}/Manan.mp4`;
+  const videoSource = "/Manan.mp4";
 
   return (
     <div className="w-full sm:w-60 h-full relative group rounded-xl overflow-hidden border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-950 shadow-[0_4px_20px_rgba(0,0,0,0.03)] dark:shadow-[0_4px_20px_rgba(0,0,0,0.3)] transition-all duration-300 ease-out hover:scale-[1.03] sm:hover:scale-105 hover:border-zinc-300 dark:hover:border-zinc-700 hover:shadow-md z-10 will-change-transform select-none min-h-[140px] flex flex-col">
       
-      {/* HUD TOP STATUS INDICATOR BADGE */}
+      {/* HUD BADGE */}
       <div className="absolute top-3 right-3 z-30 flex items-center gap-1.5 bg-zinc-900/80 backdrop-blur-md px-2.5 py-1 rounded-full border border-white/10 text-[9px] font-mono tracking-wider font-bold text-white uppercase select-none transition-all duration-300 pointer-events-none">
         <span className="relative flex h-1.5 w-1.5">
           <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-blue-400 opacity-75 duration-1000" />
@@ -72,7 +69,7 @@ export default function Themelight() {
         </span>
       </div>
 
-      {/* HTML5 VIDEO PLAYER CONTAINER */}
+      {/* VIDEO CONTAINER */}
       <div className="relative w-full h-[260px] sm:h-full flex-1 overflow-hidden bg-black flex items-center justify-center">
         <video
           ref={videoRef}
@@ -80,16 +77,15 @@ export default function Themelight() {
           muted
           loop
           playsInline
+          preload="auto"
           className="w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-[1.02]"
         >
           <source src={videoSource} type="video/mp4" />
           Your browser does not support the video tag.
         </video>
 
-        {/* INTERACTIVE CONTROLS OVERLAY (RESTART / PLAY) */}
+        {/* CONTROLS OVERLAY */}
         <div className="absolute inset-0 flex items-center justify-center gap-3 pointer-events-none z-20">
-          
-          {/* Play / Pause Fallback Button if Autoplay fails */}
           {!isPlaying && (
             <button
               onClick={handlePlayPause}
@@ -103,7 +99,6 @@ export default function Themelight() {
             </button>
           )}
 
-          {/* Standard Hover Restart Button */}
           <button
             onClick={handleRestart}
             className="pointer-events-auto bg-white/80 hover:bg-white text-zinc-900 dark:bg-black/60 dark:hover:bg-black/80 dark:text-white p-3 rounded-full transition-all duration-300 opacity-0 group-hover:opacity-100 backdrop-blur-md shadow-xl transform hover:scale-110 flex items-center justify-center"
@@ -115,7 +110,7 @@ export default function Themelight() {
           </button>
         </div>
 
-        {/* MUTE / UNMUTE BUTTON */}
+        {/* MUTE TOGGLE BUTTON */}
         <button
           onClick={toggleMute}
           className="absolute bottom-3 right-3 bg-white/80 hover:bg-white text-zinc-900 dark:bg-black/60 dark:hover:bg-black/80 dark:text-white px-2.5 py-1 rounded-md text-[10px] font-medium transition-all backdrop-blur-md shadow-md flex items-center gap-1.5 z-20 border border-zinc-200/50 dark:border-transparent opacity-80 group-hover:opacity-100"
@@ -142,4 +137,4 @@ export default function Themelight() {
       </div>
     </div>
   );
-} 
+}
